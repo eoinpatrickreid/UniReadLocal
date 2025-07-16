@@ -1,10 +1,11 @@
 {
+    
     "_readme": [
         "This file locks the dependencies of your project to a known state",
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "078e246253f73c11fb34deed6a2c55b3",
+    "content-hash": "1599fe1202732cd4fea9c1845cc530c5",
     "packages": [
         {
             "name": "bcosca/fatfree-core",
@@ -59,8 +60,12 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.4"
+        "php": ">=7.4",
+        "ext-pdo": "*",
+        "ext-pdo_sqlite": "*"
     },
     "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }
+
+
