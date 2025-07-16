@@ -1,0 +1,203 @@
+<div class="logo">
+    <a href="{{ @BASE }}/home">
+        <img src="imageFolder/titleWhite.png" alt="uniREAD Logo" style="height: 120px; width: auto;">
+    </a>
+</div>
+<div id="navbar-placeholder"></div>
+<img id="art" src="imageFolder/DSHW-123.png" alt="art">
+<img id="static" src="imageFolder/randomStatic.png" alt="art">
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch("{{ @BASE }}/navbar")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-placeholder').innerHTML = data;
+                // Move the submenu logic here, after the navbar has been loaded
+                setupSubmenuToggle();
+            });
+    });
+
+    function toggleNav() {
+        var nav = document.getElementById("mySidenav");
+        nav.style.width = nav.style.width === "250px" ? "0" : "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+
+    function setupSubmenuToggle() {
+        var submenuToggle = document.querySelector('.submenu-toggle');
+        if (submenuToggle) {
+            submenuToggle.onclick = function() {
+                var submenu = document.querySelector('.submenu');
+                if (submenu) {
+                    submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+                } else {
+                    console.error("Submenu element not found.");
+                }
+            };
+        } else {
+            console.error("Submenu toggle button not found.");
+        }
+    }
+</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Screen Embed with Styled Navigation Menu</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #000000 0%, #000000 100%);
+        }
+        iframe {
+            width: 100%;
+            height: calc(100% - 40px);
+            border: none;
+        }
+        .link-bar {
+            text-align: right;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0);
+            position: fixed;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+        .link-bar a, .menu-toggle {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+        }
+        .menu-toggle:hover, .link-bar a:hover {
+            text-decoration: underline;
+        }
+        .side-nav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 10;
+            top: 0;
+            right: 0;
+            background: linear-gradient(to bottom, rgba(182, 251, 255, 0) 0%, rgba(21, 104, 231, 0) 100%);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+        .side-nav a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #fff;
+            display: block;
+            transition: 0.3s;
+        }
+        .side-nav a:hover {
+            color: #f1f1f1;
+        }
+        .side-nav .close-btn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            color: #fff;
+        }
+        #navbar-placeholder {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1001;
+            margin: 10px;
+            transform: rotate(-10deg);
+        }
+        #art {
+            position: fixed;
+            width: 100vw;
+            height: auto;
+            top: -90%;
+            left: 0;
+            object-fit: contain;
+            z-index: 999;
+            transform: rotate(45deg);
+        }
+        #static {
+            position: fixed;
+            width: 130vw;
+            height: auto;
+            top: -90%;
+            left: 0;
+            object-fit: contain;
+            z-index: 400;
+
+        }
+        h2 {
+            position: absolute;
+            width: 716px;
+            height: 62px;
+            left: 33%;
+            top: 259px;
+
+            font-family: 'JetBrains Mono';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 32px;
+            line-height: 42px;
+            text-transform: uppercase;
+
+            color: #FFFFFF;
+        }
+        .image-container {
+            top: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .image-container img {
+            top: 50%;
+            margin: 0 5px;
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+
+<body>
+<h2>
+    UNI LIBRARY: WEEK 1-5
+</h2>
+
+
+
+<div class="image-container">
+    <img src="imageFolder/A6.png" alt="Image A6">
+    <img src="imageFolder/B2.png" alt="Image B2">
+    <img src="imageFolder/C20.png" alt="Image C20">
+    <img src="imageFolder/D10.png" alt="Image D10">
+    <img src="imageFolder/E2.png" alt="Image E2">
+</div>
+</body>
+
+
+

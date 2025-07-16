@@ -1,0 +1,40 @@
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title></title>
+    <script>
+        $(document).ready(function(){
+            $("button.first").click(function() {
+                $("#div1").load("ui/demo_.txt", function(response, status, xhr) {
+                    if (status == "error") {
+                        alert("Error: " + xhr.status + " " + xhr.statusText);
+                    }
+                });            });
+        })
+    </script>
+</head>
+<body>
+<form id="vote1" name="vote1" method="post" action="{{ @BASE }}/voting">
+    Please enter your name:
+    <input name="name" type="text" placeholder="Enter name" id="name" size="50" />
+
+    <p>Choose a book:
+        <select name="colour" id="colour">
+            <option value="blue">Blue</option>
+            <option value="red" selected="selected">Red</option>
+            <option value="green">Green</option>
+        </select>
+    </p>
+    <p>
+        <input type="submit" name="Submit" value="Submit" />
+    </p>
+</form>
+
+<div id="div1">
+    <h2> let jQ </h2>
+</div>
+
+<button class="first">Book 1</button>
+<button class="second">Book 2</button>
+<button class="third">Book 3</button>
+<button class="third">Book 3</button>
+</body>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js demo-2">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Book Showcase</title>
+    <link rel="stylesheet" type="text/css" href="default.css" />
+    <link rel="stylesheet" type="text/css" href="component2.css" />
+    <script src="ui/js/modernizr.custom.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const isbnList = ['9780140328721', '9780439554930', '9780061120084'];
+            const bookListElement = document.getElementById('bk-list');
+            let bookCounter = 1;
+            let fetchPromises = [];
+
+            isbnList.forEach(isbn => {
+                let fetchPromise = fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.totalItems > 0) {
+
+                            const bookDetails = data.items[0].volumeInfo;
+                            const listItem = document.createElement('li');
+                            listItem.innerHTML = `
+                        <div class="bk-book book-${bookCounter}">
+                            <div class="bk-front">
+                                <div class="bk-cover-back"></div>
+                                <div class="bk-cover">
+                                    <h2>
+                                        <span>${bookDetails.authors ? bookDetails.authors.join(', ') : 'Unknown Author'}</span>
+                                        <span>${bookDetails.title}</span>
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="bk-page">
+                                <div class="bk-content bk-content-current">
+                                    <p>${bookDetails.description ? bookDetails.description : 'No description available.'}</p>
+                                </div>
+                                <div class="bk-content">
+                                    <p>${bookDetails.description ? bookDetails.description : 'No description available.'}</p>
+                                </div>
+                                <div class="bk-content">
+                                    <p>${bookDetails.description ? bookDetails.description : 'No description available.'}</p>
+                                </div>
+                            </div>
+                            <div class="bk-back">
+                                <p>${bookDetails.description ? bookDetails.description : 'No description available.'}</p>
+                            </div>
+                            <div class="bk-right"></div>
+                            <div class="bk-left">
+                                <h2>
+                                    <span>${bookDetails.authors ? bookDetails.authors.join(', ') : 'Unknown Author'}</span>
+                                    <span>${bookDetails.title}</span>
+                                </h2>
+                            </div>
+                            <div class="bk-top"></div>
+                            <div class="bk-bottom"></div>
+                        </div>
+                    `;
+                            bookListElement.appendChild(listItem);
+                            bookCounter++;
+                        }
+                    });
+                fetchPromises.push(fetchPromise);
+            });
+
+            Promise.all(fetchPromises).then(() => {
+                Books.init(); // Initialize book functionality after all books have been added
+            }).catch(error => {
+                console.error('Error initializing books:', error);
+            });
+        });
+
+
+    </script>
+</head>
+<body>
+<div class="container">
+
+    <header class="clearfix">
+        <h1>Welcome to the Public Library</h1>
+        <nav class="codrops-demos">
+            <a href="index.html">Demo 1</a>
+            <a class="current-demo" href="index2.html">Demo 2</a>
+        </nav>
+        <span class="support-note">Best viewed in WebKit browsers</span>
+    </header>
+    <div class="main">
+        <ul id="bk-list" class="bk-list clearfix"></ul>
+        <div class="bookshelf"></div>
+    </div>
+</div><!-- /container -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="ui/js/books2.js"></script>
+
+</body>
+</html>

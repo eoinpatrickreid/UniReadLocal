@@ -1,0 +1,199 @@
+<div class="logo">
+    <a href="{{ @BASE }}/home"><img src="imageFolder/titleWhite.png" alt="uniREAD Logo" style="height: 120px; width: auto;"></a>
+</div>
+<div id="navbar-placeholder"></div>
+<img id="img" src="imageFolder/tissuePaperesque2.png" alt="Decorative Background">
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch("{{ @BASE }}/navbar")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-placeholder').innerHTML = data;
+                // Move the submenu logic here, after the navbar has been loaded
+                setupSubmenuToggle();
+            });
+    });
+
+    function toggleNav() {
+        var nav = document.getElementById("mySidenav");
+        nav.style.width = nav.style.width === "250px" ? "0" : "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+
+    function setupSubmenuToggle() {
+        var submenuToggle = document.querySelector('.submenu-toggle');
+        if (submenuToggle) {
+            submenuToggle.onclick = function() {
+                var submenu = document.querySelector('.submenu');
+                if (submenu) {
+                    submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+                } else {
+                    console.error("Submenu element not found.");
+                }
+            };
+        } else {
+            console.error("Submenu toggle button not found.");
+        }
+    }
+</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read Book by ISBN</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.cdnfonts.com/css/ransom-note" rel="stylesheet">
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/ransom-note');
+        #viewerCanvas {
+            width: 90%; /* Or adjust based on your preference */
+            height: 200%; /* Adjust the height to fit the content */
+            position: absolute; /* Or absolute, based on your needs */
+            right: 5%;
+            top: 130%; /* Adjusted to center the viewer vertically */
+            transform: translateY(-50%); /* Centers the viewer */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 1px solid #ccc; /* Light grey border */
+            z-index: 1000;
+        }
+         html, body {
+             margin: 0;
+             padding: 0;
+             height: 160%;
+             overflow: auto;
+             background: linear-gradient(to bottom, #b6fbff 0%, #83a4d4 100%);
+             /*background-image: url("materialsI/mainPage/backgroundHome.png");
+             background-size: cover;
+             background-position: center;*/
+         }
+        iframe {
+            width: 100%;
+            height: calc(100% - 40px);
+            border: none;
+            z-index: 1000; /* Ensure this is lower than the clouds */
+            position: relative; /* Required for z-index to take effect */
+        }
+        #img {
+            position: fixed;
+            top: -10%;
+            transform: rotate(-180deg);
+
+        }
+
+        .logo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1200;
+            margin: 40px;
+            transform: rotate(-10deg);
+        }
+        .logo a {
+            cursor: pointer; /* Optional: Clearly indicates the logo is clickable */
+            display: block;
+            padding: 30px 15px;
+        }
+
+        .logo a img {
+            transition: transform 0.3s ease-in-out;
+            transform: rotate(-10deg);
+            width: 100px;
+        }
+
+        .logo a:hover img {
+            transform: rotate(0deg);
+        }
+
+
+        #navbar-placeholder {
+            position: relative;
+            z-index: 1003; /* Ensure this is higher than clouds and any other overlaying element */
+        }
+
+        .logo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1003; /* Adjusted to be on the same level as the navbar for consistency */
+            margin: 10px;
+            transform: rotate(-10deg);
+        }
+        #container {
+            position: absolute; /* Or 'fixed', depending on the original button's behavior */
+            z-index: 1400;
+            top: 20%;
+            left: 8%;
+            background: transparent;
+            font-family: 'RansomNote', sans-serif;
+
+        }
+        #fullScreenBtn{
+            font-family: 'RansomNote', sans-serif;
+            height: auto;
+            width: auto;
+            font-size: 30pt;
+            background: transparent;
+        }
+
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+    var isbn = ""; // Global variable to hold the ISBN
+
+    function loadGoogleBooksAPI() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://www.google.com/books/jsapi.js';
+        script.onload = function() {
+            google.books.load();
+
+            // Only fetch book details once the Google Books API is fully loaded
+            google.books.setOnLoadCallback(fetchBookDetails);
+        };
+        document.head.appendChild(script);
+    }
+
+    function fetchBookDetails() {
+        // Example fetch operation; replace with your actual data fetching logic
+        fetch("{{ @BASE }}/api/get-isbn")
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.isbn) {
+                    isbn = data.isbn; // Store the fetched ISBN globally
+                    initializeViewer(); // Initialize the viewer once the ISBN is obtained
+                } else {
+                    console.error("ISBN could not be retrieved.");
+                }
+            })
+            .catch(error => console.error("Error fetching ISBN:", error));
+    }
+
+    function initializeViewer() {
+        if (isbn !== "") {
+            var viewer = new google.books.DefaultViewer(document.getElementById('viewerCanvas'));
+            viewer.load('ISBN:' + isbn, function() {
+                alert("Could not find the book you're looking for.");
+            });
+        }
+    }
+
+    loadGoogleBooksAPI(); // Load and initialize the Google Books API as soon as the script is ready
+</script>
+
+<div id="container">
+    <button id="fullScreenBtn" class="learn-more" onclick="window.location.href='{{ @BASE }}/thisWeeksBookFinal';">
+    <span class="circle" aria-hidden="true">
+      <span class="icon arrow"></span>
+    </span>
+        <span class="button-text">&emsp; <- This Weeks Book</span>
+    </button>
+</div>
+<div id="viewerCanvas"></div>
+
+</body>
+
+

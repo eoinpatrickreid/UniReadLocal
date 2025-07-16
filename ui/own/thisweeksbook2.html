@@ -1,0 +1,336 @@
+<div class="logo">
+    <a href="{{ @BASE }}/home">
+        <img src="../../imageFolder/titleWhite.png" alt="uniREAD Logo" style="height: 120px; width: auto;">
+    </a>
+</div>
+<div id="navbar-placeholder"></div>
+<img id="img" src="../../imageFolder/BGTissuePaperesque.png" alt="Decorative Background">
+<img id="text" src="../../imageFolder/TB2.png" alt="text">
+<img id="text2" src="../../imageFolder/1-06.png" alt="text">
+<script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+        fetch("{{ @BASE }}/navbar")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-placeholder').innerHTML = data;
+                // Move the submenu logic here, after the navbar has been loaded
+                setupSubmenuToggle();
+            });
+    });
+
+        function toggleNav() {
+        var nav = document.getElementById("mySidenav");
+        nav.style.width = nav.style.width === "250px" ? "0" : "250px";
+    }
+
+        function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+
+        function setupSubmenuToggle() {
+        var submenuToggle = document.querySelector('.submenu-toggle');
+        if (submenuToggle) {
+        submenuToggle.onclick = function() {
+        var submenu = document.querySelector('.submenu');
+        if (submenu) {
+        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+    } else {
+        console.error("Submenu element not found.");
+    }
+    };
+    } else {
+        console.error("Submenu toggle button not found.");
+    }
+    }
+
+    function nameFunction() {
+        alert('Name button clicked');
+    }
+
+    function summaryFunction() {
+        alert('Summary button clicked');
+    }
+
+    function reviewFunction() {
+        alert('Review button clicked');
+    }
+</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #b6fbff 0%, #83a4d4 100%);
+        }
+        iframe {
+            width: 100%;
+            height: calc(100% - 40px);
+            border: none;
+        }
+        .link-bar {
+            text-align: right;
+            padding: 10px;
+            background-color: rgb(174, 241, 244);
+            position: fixed;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+        .link-bar a, .menu-toggle {
+            color: #000;
+            text-decoration: none;
+            margin: 0 10px;
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+        }
+        .menu-toggle:hover, .link-bar a:hover {
+            text-decoration: underline;
+        }
+        .side-nav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 10;
+            top: 0;
+            right: 0;
+            background: linear-gradient(to bottom, #b6fbff 0%, #1568e7 100%);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+        .side-nav a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #fff;
+            display: block;
+            transition: 0.3s;
+        }
+        .side-nav a:hover {
+            color: #f1f1f1;
+        }
+        .side-nav .close-btn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            color: #fff;
+        }
+        #navbar-placeholder {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1001;
+            margin: 10px;
+            transform: rotate(-10deg);
+        }
+        #img {
+            position: fixed;
+            width: 100vw;
+            height: 30vh;
+            top: 0;
+            left: 0;
+            object-fit: cover;
+            z-index: 999;
+        }
+        #art {
+            position: fixed;
+            width: 120vw;
+            height: auto;
+            top: 120%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: contain;
+            z-index: 999;
+        }
+
+        h2 {
+            margin-top: 130px;
+            font-size: 32px;
+            z-index: 1002;
+            position: relative;
+            color: black;
+        }
+
+        #booksTable {
+            font-size: 20px;
+            z-index: 1002;
+            position: relative;
+
+        }
+
+        #img {
+            z-index: 998;
+        }
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-left: 10px;
+            background: #FF7A00;
+        }
+
+        #navbar-placeholder {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1001;
+            margin: 10px;
+            transform: rotate(-10deg);
+        }
+        #img {
+            position: fixed;
+            width: 100vw;
+            height: auto;
+            top: 0;
+            left: 0;
+            object-fit: cover;
+            z-index: 999;
+
+        }
+        #art {
+            position: fixed;
+            width: auto;
+            height: 65vh;
+            top: 55%;
+            left: 15%;
+            transform: translate(-50%, -50%);
+            object-fit: contain;
+            z-index: 999;
+        }
+
+
+        #text {
+            position: fixed;
+            scale: 40%;
+            top: -40%;
+            right: -65%;
+            transform: rotate(-5deg);
+
+            z-index: 999;
+        }
+        #text2 {
+            position: fixed;
+            scale: 10%;
+            top: -60%;
+            right: -20%;
+            transform: rotate(-5deg);
+
+            z-index: 999;
+        }
+        .side-nav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 10;
+            top: 0;
+            right: 0;
+            background: linear-gradient(to bottom, #FF7A00 0%, #fc8111 100%);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+        .button-container {
+            position: fixed;
+            top: 60%;
+            left: 10%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 30px;
+            z-index: 1002;
+
+        }
+
+        .button-container button {
+            background-color: #fbeee0;
+            border: 2px solid #422800;
+            border-radius: 30px;
+            box-shadow: #422800 4px 4px 0 0;
+            color: #422800;
+            cursor: pointer;
+            display: inline-block;
+            font-weight: 600;
+            font-size: 18px;
+            padding: 18px;
+            line-height: 50px;
+            text-align: center;
+            text-decoration: none;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+
+        }
+        .button-74 {
+            background-color: #fbeee0;
+            border: 2px solid #422800;
+            border-radius: 30px;
+            box-shadow: #422800 4px 4px 0 0;
+            color: #422800;
+            cursor: pointer;
+            display: inline-block;
+            font-weight: 600;
+            font-size: 18px;
+            padding: 0 18px;
+            line-height: 50px;
+            text-align: center;
+            text-decoration: none;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        .button-container button:hover {
+            background-color: #fff;
+        }
+
+        .button-container button:active {
+            box-shadow: #422800 2px 2px 0 0;
+            transform: translate(2px, 2px);
+        }
+
+        @media (min-width: 768px) {
+            .button-container button {
+                min-width: 120px;
+                padding: 0 25px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+<div class="button-container">
+    <button onclick="nameFunction()">Name</button>
+    <button onclick="summaryFunction()">Summary</button>
+    <button onclick="reviewFunction()">Review</button>
+</div>
+
+</body>

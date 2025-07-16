@@ -1,0 +1,277 @@
+<div class="logo">
+    <a href="{{ @BASE }}/home">
+        <img src="imageFolder/titleWhite.png" alt="uniREAD Logo" style="height: 120px; width: auto;">
+    </a>
+</div>
+<div id="navbar-placeholder"></div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch("{{ @BASE }}/navbar")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-placeholder').innerHTML = data;
+                // Move the submenu logic here, after the navbar has been loaded
+                setupSubmenuToggle();
+            });
+    });
+
+    function toggleNav() {
+        var nav = document.getElementById("mySidenav");
+        nav.style.width = nav.style.width === "250px" ? "0" : "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+
+    function setupSubmenuToggle() {
+        var submenuToggle = document.querySelector('.submenu-toggle');
+        if (submenuToggle) {
+            submenuToggle.onclick = function() {
+                var submenu = document.querySelector('.submenu');
+                if (submenu) {
+                    submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+                } else {
+                    console.error("Submenu element not found.");
+                }
+            };
+        } else {
+            console.error("Submenu toggle button not found.");
+        }
+    }
+</script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Personal Library</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        .book-cover {
+            width: 150px;
+            margin: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .book-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-book-details {
+            text-align: center;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #b6fbff 0%, #83a4d4 100%);
+        }
+        iframe {
+            width: 100%;
+            height: calc(100% - 40px);
+            border: none;
+        }
+        .link-bar {
+            text-align: right;
+            padding: 10px;
+            background-color: rgb(174, 241, 244);
+            position: fixed;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+        .link-bar a, .menu-toggle {
+            color: #000;
+            text-decoration: none;
+            margin: 0 10px;
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+        }
+        .menu-toggle:hover, .link-bar a:hover {
+            text-decoration: underline;
+        }
+        .side-nav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 10;
+            top: 0;
+            right: 0;
+            background: linear-gradient(to bottom, #b6fbff 0%, #1568e7 100%);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+        .side-nav a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #fff;
+            display: block;
+            transition: 0.3s;
+        }
+        .side-nav a:hover {
+            color: #f1f1f1;
+        }
+        .side-nav .close-btn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            color: #fff;
+        }
+        #navbar-placeholder {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1001;
+            margin: 10px;
+            transform: rotate(-10deg);
+        }
+        #img {
+            position: fixed;
+            width: 100vw;
+            height: 30vh;
+            top: 0;
+            left: 0;
+            object-fit: cover;
+            z-index: 999;
+        }
+        #art {
+            position: fixed;
+            width: 120vw;
+            height: auto;
+            top: 120%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: contain;
+            z-index: 999;
+        }
+
+        h2 {
+            margin-top: 130px;
+            font-size: 32px;
+            z-index: 1002;
+            position: relative;
+            color: black;
+        }
+
+        #booksTable {
+            font-size: 20px;
+            z-index: 1002;
+            position: relative;
+
+        }
+
+        #img {
+            z-index: 998;
+        }
+    </style>
+</head>
+<body>
+
+<div class="book-container"></div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-book-details"></div>
+    </div>
+</div>
+
+<script>
+    // Example array of ISBNs
+    //const isbns = ['9781612626864', '9780321573513', '9780439023528', '9780679783268'];
+
+    $(document).ready(function() {
+        const $bookContainer = $('.book-container');
+
+        // Fetch the read books' ISBNs from your F3 endpoint
+        $.getJSON("{{ @BASE }}/api/read-books", function(readBooks) {
+            const isbns = readBooks.map(book => book.isbn); // Assuming the structure includes an 'isbn' field
+            isbns.forEach(isbn => {
+                $.getJSON(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`, function(data) {
+                    if(data.totalItems) {
+                        const bookInfo = data.items[0].volumeInfo;
+                        const coverImg = bookInfo.imageLinks ? bookInfo.imageLinks.thumbnail : '';
+                        const $img = $(`<img src="${coverImg}" class="book-cover" alt="${bookInfo.title}">`).click(function() {
+                            showModal(bookInfo, coverImg);
+                        });
+                        $bookContainer.append($img);
+                    }
+                });
+            });
+        });
+        // Modal
+        const modal = document.getElementById("myModal");
+        const span = document.getElementsByClassName("close")[0];
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        function showModal(bookInfo, coverImg) {
+            $('.modal-book-details').html(`
+            <img src="${coverImg}" alt="${bookInfo.title}">
+            <h2>${bookInfo.title}</h2>
+            <p>${bookInfo.authors.join(", ")}</p>
+            <p>${bookInfo.description}</p>
+        `);
+            modal.style.display = "block";
+        }
+    });
+</script>
+</body>
+

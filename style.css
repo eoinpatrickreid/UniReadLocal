@@ -1,0 +1,22 @@
+@font-face {
+    font-family: 'DOS-V';
+    src: url('/fonts/Px437_DOS-V_re_ANK24.ttf') format('truetype');
+}
+body {
+    font-family: 'DOS-V', monospace;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    top: 20%;
+}
+/* Other CSS rules... */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #b6fbff 0%, #83a4d4 100%);
+    /*background-image: url("materialsI/mainPage/backgroundHome.png");
+    background-size: cover;
+    background-position: center;*/
+}

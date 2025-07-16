@@ -1,0 +1,15 @@
+<table border='1'>
+    <tr>
+        <th>Name</th>
+        <th>Colour</th>
+        <th>Pet</th>
+    </tr>
+
+    <repeat group="{{ @userTable }}" value="{{ @record }}">
+        <tr>
+            <td>{{ @record.name}}</td>
+            <td>{{ @record.colour}}</td>
+            <td>{{ @record.pet}}</td>
+        </tr>
+    </repeat>
+</table>

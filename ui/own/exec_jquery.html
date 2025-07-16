@@ -1,0 +1,19 @@
+
+<script>
+    function simpleQuery(queryUrl)
+    {
+        $.ajax({
+            type: 'GET',
+            url: queryUrl,
+            success: response => $("#response").html(JSON.stringify(response, null, 4)),
+            // failure: error => console.log(error)
+            failure: error => $("#response").html(error)
+        });
+    }
+</script>
+
+<h2>JQUERY Example</h2>
+<p>Enter a URL and press the button to see the response below.</p>
+<input id="url_input"/>
+<button onclick="simpleQuery($('#url_input').val())">Press Me To Fetch Response from a URL</button>
+<pre id="response">Response Here</pre>

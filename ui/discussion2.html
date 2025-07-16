@@ -1,0 +1,174 @@
+<div class="logo">
+    <a href="{{ @BASE }}/home">
+        <img src="imageFolder/titleWhite.png" alt="uniREAD Logo" style="height: 120px; width: auto;">
+    </a>
+</div>
+<div id="navbar-placeholder"></div>
+<img id="img" src="imageFolder/6.png" alt="Decorative Background">
+
+<img id="static" src="imageFolder/randomStatic.png" alt="art">
+<img id="placeholder" src="imageFolder/placeholder.png" alt="art">
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch("{{ @BASE }}/navbar")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-placeholder').innerHTML = data;
+            });
+    });
+    function toggleNav() {
+        var nav = document.getElementById("mySidenav");
+        nav.style.width = nav.style.width === "250px" ? "0" : "250px";
+    }
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-left: 10px;
+            background: #091fb6;
+        }
+
+        #navbar-placeholder {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        #static {
+            position: fixed;
+            width: 130vw;
+            height: auto;
+            top: -90%;
+            left: 0;
+            object-fit: contain;
+            z-index: 400;
+
+        }
+
+        .logo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1001;
+            margin: 10px;
+            transform: rotate(-10deg);
+        }
+
+        #img {
+            position: fixed;
+            width: 50vw;
+            height: Auto;
+            top: 38%;
+            left: 25%;
+            object-fit: cover;
+            z-index: 999;
+        }
+        #placeholder {
+            position: fixed;
+            width: 80vw;
+            height: Auto;
+            top: 20%;
+            left: 10%;
+            object-fit: cover;
+            z-index: 999;
+        }
+
+        #art {
+            position: fixed;
+            width: auto;
+            height: 65vh;
+            top: 55%;
+            left: 15%;
+            transform: translate(-50%, -50%);
+            object-fit: contain;
+            z-index: 999;
+        }
+
+
+        #text {
+            position: fixed;
+            scale: 30%;
+            top: -5%;
+            right: -60%;
+
+
+            z-index: 999;
+        }
+
+        .side-nav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 10;
+            top: 0;
+            right: 0;
+            background: linear-gradient(to bottom, #091fb6 0%, #2f41c9 100%);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+        #form1 {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 50%;
+            left: 35%;
+            z-index: 999;
+        }
+        #form1 input[type=text], #form1 input[type=password] {
+            margin: 10px 0;
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        #form1 input[type="image"] {
+            cursor: pointer;
+            margin-top: 20px;
+            width: 20px;
+            height: 20px;
+        }
+        #form1 a {
+            color: #000000;
+            text-decoration: none;
+            margin-top: 15px;
+        }
+        #form1 a:hover {
+            text-decoration: underline;
+        }
+        .image-container {
+            top: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .image-container img {
+            top: 90%;
+            margin: 0 5px;
+            width: 300px;
+            height: 300px;
+        }
+
+    </style>
+</head>
+
+
+

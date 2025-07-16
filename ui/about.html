@@ -1,0 +1,110 @@
+<div class="logo">
+    <a href="{{ @BASE }}/home">
+        <img src="imageFolder/titleWhite.png" alt="uniREAD Logo" style="height: 120px; width: auto;">
+    </a>
+</div>
+<div id="navbar-placeholder"></div>
+<img id="img" src="imageFolder/tissuePaperesque2.png" alt="Decorative Background">
+<img id="text" src="images/about.png" alt="About">
+<img id="art" src="imageFolder/hand-holding-mic.png" alt="art">
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch("{{ @BASE }}/navbar")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-placeholder').innerHTML = data;
+                // Move the submenu logic here, after the navbar has been loaded
+                setupSubmenuToggle();
+            });
+    });
+
+    function toggleNav() {
+        var nav = document.getElementById("mySidenav");
+        nav.style.width = nav.style.width === "250px" ? "0" : "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+
+    function setupSubmenuToggle() {
+        var submenuToggle = document.querySelector('.submenu-toggle');
+        if (submenuToggle) {
+            submenuToggle.onclick = function() {
+                var submenu = document.querySelector('.submenu');
+                if (submenu) {
+                    submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+                } else {
+                    console.error("Submenu element not found.");
+                }
+            };
+        } else {
+            console.error("Submenu toggle button not found.");
+        }
+    }
+</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 130%;
+            overflow: scroll;
+            background: linear-gradient(to bottom, #b6fbff 0%, #83a4d4 100%);
+            font-family: 'DOS-V', monospace;
+        }
+
+        #navbar-placeholder {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1001;
+            margin: 10px;
+            transform: rotate(-10deg);
+        }
+        #img {
+            position: fixed;
+            width: 100vw;
+            height: 30vh;
+            top: 0;
+            left: 0;
+            object-fit: cover;
+            z-index: 999;
+        }
+        #art {
+            position: fixed;
+            width: auto;
+            height: 65vh;
+            top: 55%;
+            left: 15%;
+            transform: translate(-50%, -50%);
+            object-fit: contain;
+            z-index: 999;
+        }
+
+
+        #text {
+            position: fixed;
+            scale: 130%;
+            top: 5%;
+            right: 30%;
+            transform: rotate(-5deg);
+
+            z-index: 999;
+        }
+
+
+    </style>
+</head>
+<body>
+
+</body>

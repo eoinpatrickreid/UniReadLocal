@@ -1,0 +1,472 @@
+<div id="navbar-placeholder"></div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch("{{ @BASE }}/navbar")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-placeholder').innerHTML = data;
+                // Move the submenu logic here, after the navbar has been loaded
+                setupSubmenuToggle();
+            });
+    });
+
+    function toggleNav() {
+        var nav = document.getElementById("mySidenav");
+        nav.style.width = nav.style.width === "250px" ? "0" : "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+
+    function setupSubmenuToggle() {
+        var submenuToggle = document.querySelector('.submenu-toggle');
+        if (submenuToggle) {
+            submenuToggle.onclick = function() {
+                var submenu = document.querySelector('.submenu');
+                if (submenu) {
+                    submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+                } else {
+                    console.error("Submenu element not found.");
+                }
+            };
+        } else {
+            console.error("Submenu toggle button not found.");
+        }
+    }
+</script>
+<link href="https://fonts.cdnfonts.com/css/ransom-note" rel="stylesheet">
+<style>
+    @import url('https://fonts.cdnfonts.com/css/ransom-note');
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read Book by ISBN</title>
+    <link href="https://fonts.cdnfonts.com/css/ransom-note" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/ransom-note');
+        #viewerCanvas {
+            width: 700px; /* Or adjust based on your preference */
+            height: 800px; /* Adjust the height to fit the content */
+            position: absolute; /* Or absolute, based on your needs */
+            right: 20%;
+            top: 95%;
+            transform: translateY(-50%);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 1px solid #ccc; /* Light grey border */
+            z-index: 1200;
+            display: none; /* Initially hide the viewer */
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            top: 20%;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 130%;
+            background: linear-gradient(to bottom, #b6fbff 0%, #83a4d4 100%);
+            overflow-y: auto; /* Allows vertical scrolling */
+        }
+        iframe {
+            width: 100%;
+            height: calc(100% - 40px);
+            border: none;
+        }
+
+        .logo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1001;
+            margin: 10px;
+            transform: rotate(-10deg);
+        }
+        #img {
+            position: absolute;
+            width: 100vw;
+            height: 30vh;
+            top: 0;
+            left: 0;
+            object-fit: cover;
+            z-index: 999;
+        }
+
+
+        h2 {
+            margin-top: 130px;
+            font-size: 32px;
+            z-index: 1002;
+            position: relative;
+            color: black;
+        }
+
+
+
+        #img {
+            z-index: 998;
+        }
+        #text {
+            position: absolute;
+            scale: 40%;
+            top: -40%;
+            right: -65%;
+            transform: rotate(-5deg);
+
+            z-index: 999;
+        }
+        #text2 {
+            position: absolute;
+            scale: 10%;
+            top: -60%;
+            right: -20%;
+            transform: rotate(-5deg);
+
+            z-index: 999;
+        }
+        #navbar-placeholder {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1001;
+            margin: 10px;
+            transform: rotate(-10deg);
+        }
+        #img {
+            position: absolute;
+            width: 100vw;
+            height: auto;
+            top: 0;
+            left: 0;
+            object-fit: cover;
+            z-index: 999;
+
+        }
+
+        #text {
+            position: absolute;
+            scale: 40%;
+            top: -40%;
+            right: -65%;
+            transform: rotate(-5deg);
+
+            z-index: 999;
+        }
+        #text2 {
+            position: absolute;
+            scale: 10%;
+            top: -60%;
+            right: -20%;
+            transform: rotate(-5deg);
+
+            z-index: 999;
+        }
+
+        .button-container {
+            position: absolute;
+            top: 60%;
+            left: 8%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 30px;
+            z-index: 1002;
+
+        }
+
+        .button-container button {
+            background-color: #fbeee0;
+            border: 2px solid #422800;
+            border-radius: 30px;
+            box-shadow: #422800 4px 4px 0 0;
+            color: #422800;
+            cursor: pointer;
+            display: inline-block;
+            font-weight: 600;
+            font-size: 30px;
+            padding: 18px;
+            line-height: 50px;
+            text-align: center;
+            text-decoration: none;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            font-family: 'RansomNote', sans-serif;
+
+        }
+
+
+        .button-container button:hover {
+            background-color: #fff;
+        }
+
+        .button-container button:active {
+            box-shadow: #422800 2px 2px 0 0;
+            transform: translate(2px, 2px);
+        }
+
+        @media (min-width: 768px) {
+            .button-container button {
+                min-width: 120px;
+                padding: 0 25px;
+            }
+        }
+        #bookDetails {
+            position: absolute;
+            left: 60%;
+            top: 100%;
+            transform: translate(-50%, -50%);
+            width: 80%; /* Adjust width as needed */
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            background-color: transparent;
+            border-radius: 10px;
+            z-index: 1002; /* Ensure it's above other content */
+            display: flex;
+            flex-direction: row; /* Aligns the book cover and details side by side */
+            align-items: start; /* Aligns items at the start of the flex container */
+            max-width: 800px; /* Max width of the details section */
+            margin: auto; /* Centers the section horizontally */
+        }
+
+        .book-info {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .text-info {
+            display: flex;
+            flex-direction: column;
+            max-width: 60%; /* Adjust based on your design */
+        }
+
+        #bookSummary {
+            margin-top: 20px;
+        }
+
+        /* Additional styling for visual improvements */
+        .book-info h2, .book-info p {
+            margin: 0 0 10px 0;
+        }
+
+        .book-info p {
+            line-height: 1.6;
+            color: #333; /* Dark grey for text for better readability */
+        }
+
+        /* Style adjustments for responsiveness */
+        @media (max-width: 768px) {
+            .book-info {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #bookCover {
+                float: none;
+                margin: 0 0 20px 0;
+            }
+
+            .text-info {
+                max-width: 100%;
+            }
+        }
+        #container {
+            position: absolute; /* Or 'fixed', depending on the original button's behavior */
+            z-index: 1400;
+            top: 140%;
+            left: 48%;
+            background: transparent;
+            font-family: 'RansomNote', sans-serif;
+
+        }
+        #fullScreenBtn{
+            font-family: 'RansomNote', sans-serif;
+            height: 100px;
+            width: auto;
+            font-size: 30pt;
+            display: none;
+            background: transparent;
+        }
+
+    </style>
+</head>
+<body>
+<script>
+    document.addEventListener('scroll', function() {
+    const maxScroll = 600; // Maximum scroll in pixels
+    if (window.scrollY > maxScroll) {
+        window.scrollTo(0, maxScroll);
+    }
+});</script>
+<script type="text/javascript">
+    var isbn = ""; // Global variable to hold the ISBN
+
+    function loadGoogleBooksAPI() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.onload = function() {
+            google.books.load();
+        };
+        script.src = 'https://www.google.com/books/jsapi.js';
+        document.head.appendChild(script);
+    }
+
+    function fetchBookDetails() {
+        fetch("{{ @BASE }}/api/get-isbn")
+            .then(response => response.json())
+            .then(data => {
+                if (data.isbn) {
+                    isbn = data.isbn; // Store the fetched ISBN globally
+                    // Now fetch book details from Google Books API
+                    fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.totalItems > 0) {
+                                var book = data.items[0].volumeInfo;
+                                // Assuming you have elements with these IDs to display the book details
+                                document.getElementById('bookCover').src = book.imageLinks?.thumbnail || '';
+                                document.getElementById('bookTitle').textContent = book.title || 'Title unavailable';
+                                document.getElementById('bookAuthor').textContent = book.authors?.join(', ') || 'Author(s) not available';
+                                document.getElementById('bookPublishDate').textContent = 'Published Date: ' + (book.publishedDate || 'N/A');
+                                document.getElementById('bookPublisher').textContent = 'Publisher: ' + (book.publisher || 'N/A');
+                                document.getElementById('bookSummary').textContent = book.description || 'No description available.';
+                                document.getElementById('bookDetails').style.display = 'flex'; // Use flex to apply the CSS layout
+                            } else {
+                                console.error("Book details not found.");
+                            }
+                        });
+                } else {
+                    console.error("ISBN could not be retrieved.");
+                }
+            })
+            .catch(error => console.error("Error fetching ISBN:", error));
+    }
+
+
+    function initializeViewer() {
+        if (isbn !== "") {
+            var viewer = new google.books.DefaultViewer(document.getElementById('viewerCanvas'));
+            viewer.load('ISBN:' + isbn, function() {
+                // This function is called if the book couldn't be found
+                alert("Could not find the book you're looking for.");
+            });
+        }
+    }
+
+    function readFunction() {
+        document.getElementById('bookDetails').style.display = 'none';
+        var viewerCanvas = document.getElementById('viewerCanvas');
+        viewerCanvas.style.display = 'block'; // Show the viewer
+        var fullScreenBtn = document.getElementById('fullScreenBtn');
+        document.getElementById('fullScreenBtn').style.display = 'block'; // Show the full-screen button
+        initializeViewer(); // Initialize the viewer
+    }
+    function bookFunction() {
+        // Hide the viewer canvas
+        var viewerCanvas = document.getElementById('viewerCanvas');
+        if (viewerCanvas) {
+            viewerCanvas.style.display = 'none';
+        }
+        var fullScreenBtn = document.getElementById('fullScreenBtn');
+        if (fullScreenBtn) {
+            fullScreenBtn.style.display = 'none';
+        }
+
+        // Show the book details
+        var bookDetails = document.getElementById('bookDetails');
+        if (bookDetails) {
+            bookDetails.style.display = 'block';
+        }
+    }
+
+    loadGoogleBooksAPI(); // Load the Google Books API as soon as the script is ready
+    document.addEventListener('DOMContentLoaded', fetchBookDetails); // Fetch book details on DOMContentLoaded
+
+    document.getElementById('fullScreenBtn').addEventListener('click', function() {
+        var viewer = document.getElementById('viewerCanvas');
+        if (!document.fullscreenElement) {
+            if (viewer.requestFullscreen) {
+                viewer.requestFullscreen();
+            } else if (viewer.mozRequestFullScreen) { /* Firefox */
+                viewer.mozRequestFullScreen();
+            } else if (viewer.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                viewer.webkitRequestFullscreen();
+            } else if (viewer.msRequestFullscreen) { /* IE/Edge */
+                viewer.msRequestFullscreen();
+            }
+            viewer.classList.add('fullscreen'); // Add full-screen specific styles
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) { /* Firefox */
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { /* IE/Edge */
+                document.msExitFullscreen();
+            }
+            viewer.classList.remove('fullscreen'); // Remove full-screen specific styles
+        }
+    });
+</script>
+
+
+<div class="main-content">
+    <div class="logo">
+        <a href="{{ @BASE }}/home">
+            <img src="imageFolder/titleWhite.png" alt="uniREAD Logo" style="height: 120px; width: auto;">
+        </a>
+    </div>
+    <!-- Assuming your images and other content are part of the main content that should scroll -->
+    <img id="img" src="imageFolder/BGTissuePaperesque.png" alt="Decorative Background">
+    <img id="text" src="imageFolder/TB2.png" alt="text">
+    <img id="text2" src="imageFolder/1-06.png" alt="text">
+    <!-- More content here -->
+    <div id="bookDetails" style="display:none;">
+        <div class="book-info">
+            <img id="bookCover" src="" alt="Book Cover" style="max-width: 200px; float: left; margin-right: 20px;">
+            <div class="text-info">
+                <h2 id="bookTitle"></h2>
+                <p id="bookAuthor"></p>
+                <p id="bookPublishDate"></p>
+                <p id="bookPublisher"></p>
+                <p id="bookSummary"></p>
+            </div>
+        </div>
+    </div>
+    <div id="viewerCanvas"></div>
+    <div id="container">
+        <button id="fullScreenBtn" class="learn-more" onclick="window.location.href='{{ @BASE }}/fullScreen';">
+    <span class="circle" aria-hidden="true">
+      <span class="icon arrow"></span>
+    </span>
+            <span class="button-text">&emsp; Full Screen Viewer -></span>
+        </button>
+    </div>
+    <div class="button-container">
+        <button onclick="bookFunction()">BOOK DETAILS</button>
+        <button onclick="readFunction()">READER</button>
+    </div>
+
+</div> <!-- .main-content -->
+</body>
+

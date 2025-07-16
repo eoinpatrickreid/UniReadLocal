@@ -1,0 +1,401 @@
+<div class="logo">
+    <a href="<?= ($BASE) ?>/home"><img src="imageFolder/titleWhite.png" alt="uniREAD Logo" style="height: 120px; width: auto;"></a>
+</div>
+<div id="navbar-placeholder"></div>
+<img id="img" src="imageFolder/tissuePaperesque2.png" alt="Decorative Background">
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+        fetch("<?= ($BASE) ?>/navbar")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-placeholder').innerHTML = data;
+                // Move the submenu logic here, after the navbar has been loaded
+                setupSubmenuToggle();
+            });
+    });
+
+        function toggleNav() {
+        var nav = document.getElementById("mySidenav");
+        nav.style.width = nav.style.width === "250px" ? "0" : "250px";
+    }
+
+        function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+    function closeLoginModal() {
+    document.getElementById('loginModal').style.display = 'none';
+    document.getElementById('featureWarningModal').style.display = 'block';
+}
+
+        function setupSubmenuToggle() {
+        var submenuToggle = document.querySelector('.submenu-toggle');
+        if (submenuToggle) {
+        submenuToggle.onclick = function() {
+        var submenu = document.querySelector('.submenu');
+        if (submenu) {
+        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+    } else {
+        console.error("Submenu element not found.");
+    }
+    };
+    } else {
+        console.error("Submenu toggle button not found.");
+    }
+    }
+</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Screen Embed with Styled Navigation Menu</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: 'DOS-V';
+            src: url('fonts/Px437_DOS-V_re_ANK24.ttf') format('truetype');
+        }
+
+        body {
+            font-family: 'DOS-V', monospace;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            top: 20%;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #b6fbff 0%, #83a4d4 100%);
+            /*background-image: url("materialsI/mainPage/backgroundHome.png");
+            background-size: cover;
+            background-position: center;*/
+        }
+
+        iframe {
+            width: 100%;
+            height: calc(100% - 40px);
+            border: none;
+            z-index: 1000; /* Ensure this is lower than the clouds */
+            position: relative; /* Required for z-index to take effect */
+        }
+        #img {
+            position: fixed;
+            top: -10%;
+            transform: rotate(-180deg);
+
+        }
+
+        .logo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1200;
+            margin: 40px;
+
+        }
+        .logo a {
+            cursor: pointer; /* Optional: Clearly indicates the logo is clickable */
+            display: block;
+            padding: 30px 15px;
+        }
+
+        .logo a img {
+            transition: transform 0.3s ease-in-out;
+            transform: rotate(-10deg);
+            width: 100px;
+        }
+
+        .logo a:hover img {
+            transform: rotate(0deg);
+        }
+
+        #clouds {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1002; /* Higher than the iframe to ensure it overlays */
+            pointer-events: none;
+        }
+
+        /*Time to finalise the cloud shape*/
+        .cloud {
+            width: 200px; height: 60px;
+            background: #fff;
+            -moz-border-radius: 200px;
+            -webkit-border-radius: 200px;
+
+            position: relative;
+        }
+
+        .cloud:before, .cloud:after {
+            content: '';
+            position: absolute;
+            background: #fff;
+            width: 100px; height: 80px;
+            position: absolute; top: -15px; left: 10px;
+
+            border-radius: 100px;
+            -moz-border-radius: 100px;
+            -webkit-border-radius: 100px;
+
+            -webkit-transform: rotate(30deg);
+            transform: rotate(30deg);
+            -moz-transform: rotate(30deg);
+        }
+
+        .cloud:after {
+            width: 120px; height: 120px;
+            top: -55px; left: auto; right: 15px;
+        }
+
+        /*Time to animate*/
+        .x1 {
+            -webkit-animation: moveclouds 15s linear infinite;
+            -moz-animation: moveclouds 15s linear infinite;
+            -o-animation: moveclouds 15s linear infinite;
+        }
+
+        /*variable speed, opacity, and position of clouds for realistic effect*/
+        .x2 {
+            left: 200px;
+
+            -webkit-transform: scale(0.6);
+            -moz-transform: scale(0.6);
+            transform: scale(0.6);
+            opacity: 0.6; /*opacity proportional to the size*/
+
+            /*Speed will also be proportional to the size and opacity*/
+            /*More the speed. Less the time in 's' = seconds*/
+            -webkit-animation: moveclouds 25s linear infinite;
+            -moz-animation: moveclouds 25s linear infinite;
+            -o-animation: moveclouds 25s linear infinite;
+        }
+
+        .x3 {
+            left: -250px; top: -200px;
+
+            -webkit-transform: scale(0.8);
+            -moz-transform: scale(0.8);
+            transform: scale(0.8);
+            opacity: 0.8; /*opacity proportional to the size*/
+
+            -webkit-animation: moveclouds 20s linear infinite;
+            -moz-animation: moveclouds 20s linear infinite;
+            -o-animation: moveclouds 20s linear infinite;
+        }
+
+        .x4 {
+            left: 470px; top: -250px;
+
+            -webkit-transform: scale(0.75);
+            -moz-transform: scale(0.75);
+            transform: scale(0.75);
+            opacity: 0.75; /*opacity proportional to the size*/
+
+            -webkit-animation: moveclouds 18s linear infinite;
+            -moz-animation: moveclouds 18s linear infinite;
+            -o-animation: moveclouds 18s linear infinite;
+        }
+
+        .x5 {
+            left: -150px; top: -150px;
+
+            -webkit-transform: scale(0.8);
+            -moz-transform: scale(0.8);
+            transform: scale(0.8);
+            opacity: 0.8; /*opacity proportional to the size*/
+
+            -webkit-animation: moveclouds 20s linear infinite;
+            -moz-animation: moveclouds 20s linear infinite;
+            -o-animation: moveclouds 20s linear infinite;
+        }
+
+        @-webkit-keyframes moveclouds {
+            0% {margin-left: 1000px;}
+            100% {margin-left: -1000px;}
+        }
+        @-moz-keyframes moveclouds {
+            0% {margin-left: 1000px;}
+            100% {margin-left: -1000px;}
+        }
+        @-o-keyframes moveclouds {
+            0% {margin-left: 1000px;}
+            100% {margin-left: -1000px;}
+        }
+
+        #navbar-placeholder {
+            position: relative;
+            z-index: 1003; /* Ensure this is higher than clouds and any other overlaying element */
+        }
+
+        .logo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1003; /* Adjusted to be on the same level as the navbar for consistency */
+            margin: 10px;
+            transform: rotate(-10deg);
+        }
+        .hidden {
+            display: none;
+        }
+
+        #loginModal a, #loginModal a:visited, #loginModal a:hover, #loginModal a:active {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            position: relative;
+            transition: 0.5s color ease;
+            text-decoration: none;
+            color: #81b3d2;
+            font-size: 15pt;
+        }
+
+        #loginModal a:hover {
+            color: #2f41c9;
+        }
+
+        #loginModal a.before:before, #loginModal a.after:after {
+            content: "";
+            transition: 0.5s all ease;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            position: absolute;
+        }
+
+        #loginModal a.before:before {
+            top: -0.25em;
+        }
+
+        #loginModal a.after:after {
+            bottom: -0.25em;
+        }
+
+        #loginModal a.before:before, #loginModal a.after:after {
+            height: 5px;
+            height: 0.35rem;
+            width: 0;
+            background: #2f41c9;
+        }
+
+        #loginModal a.first:after {
+            left: 0;
+        }
+
+        #loginModal a.before:hover:before, #loginModal a.after:hover:after {
+            width: 100%;
+        }
+        #loginModal .close-btn {
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px; /* Larger font size for better visibility */
+            font-weight: bold;
+            color: #aaa; /* Lighter color for a subtler look */
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 0;
+            line-height: 1;
+            text-shadow: 0 1px 0 #fff; /* Optional: Adds a subtle shadow to the 'X' for better legibility */
+        }
+
+        #loginModal .close-btn:hover {
+            color: #777; /* Darker color on hover for visual feedback */
+        }
+
+        #loginModal div {
+            display: flex; /* Enables flexbox layout within the modal */
+        }
+
+        .modal-image-container {
+            /* This container is for the image. We set flex-basis if you want a specific width for the image or its container */
+
+            display: flex; /* For centering the image, if needed */
+            align-items: center; /* Center the image vertically */
+            justify-content: center; /* Center the image horizontally */
+            padding-right: 20px; /* Space between image and text */
+        }
+
+        .modal-text-content {
+            flex: 1; /* Allows the text content to grow and fill the remaining space */
+            padding-left: 20px; /* Space between image and text */
+            border-left: 1px solid #ccc; /* Thin line between image and text */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Ensure the close button does not interfere with the modal's layout */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .modal-image-container img {
+
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+<div id="clouds">
+    <div class="cloud x1"></div>
+    <!-- Time for multiple clouds to dance around -->
+    <div class="cloud x2"></div>
+    <div class="cloud x3"></div>
+    <div class="cloud x4"></div>
+    <div class="cloud x5"></div>
+</div>
+
+<iframe src='https://my.spline.design/untitled-56c9ac3b1ae016eccd8db1c2b3b3da64/' frameborder='0' width='100%' height='100%'></iframe>
+
+<a href="UniRead_Submission2.pdf">Download PDF Describing This Project</a>
+
+<div id="loginModal" style="display:none; position:fixed; z-index:1500; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
+    <div style="background-color:#fefefe; margin:15% auto; padding:20px; border:1px solid #888; width:80%; max-width:450px; position: relative; display: flex;">
+        <!-- Image Container -->
+        <div class="modal-image-container">
+            <img id="slice" src="images/Slice.png" alt="Decorative image" style="max-width: 200px; max-height: none;"> <!-- Increased max-width -->
+        </div>
+        <!-- Text Content Container, now with padding and border to the left -->
+        <div class="modal-text-content" style="padding-left: 20px; border-left: 1px solid #ccc; flex-grow: 1;">
+            <button onclick="closeLoginModal()" class="close-btn">&times;</button>
+            <h2>Welcome to uniREAD</h2>
+            <p>This is a dynamic online Book Club, for book lovers to read, share, discuss, and explore literature together! Let's start:</p>
+            <p>Click and drag on the book club building to interact and follow the links!</p>
+            <p><a class="first after" href="<?= ($BASE) ?>/login">log in</a> or <a class="first after" href="<?= ($BASE) ?>/register">register</a>.</p>
+        </div>
+    </div>
+</div>
+<div id="featureWarningModal" style="display:none; position:fixed; z-index:1500; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
+    <div style="background-color:#fefefe; margin:15% auto; padding:20px; border:1px solid #888; width:80%; max-width:450px; position: relative; display: flex;">
+        <!-- Image Container -->
+        <div class="modal-image-container">
+            <img src="images/Slice.png" alt="Decorative image" style="max-width: 200px; max-height: none;">
+        </div>
+        <!-- Text Content Container -->
+        <div class="modal-text-content" style="padding-left: 20px; border-left: 1px solid #ccc; flex-grow: 1;">
+            <button onclick="document.getElementById('featureWarningModal').style.display='none'" class="close-btn">&times;</button>
+            <h2>Notice</h2>
+            <p>Unfortunately some features are no longer supported as I have had to rehost the site. This mainly affects links in the 3D model, please use the burger menu to navigate!</p>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<div id="loginStatus" data-logged-in="<?= ($loggedIn) ?>"></div>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        var isLoggedIn = $('#loginStatus').data('logged-in');
+        if (!isLoggedIn) {
+            // If not logged in, show a popup and stop the function
+            document.getElementById('loginModal').style.display = 'block';
+        }
+    });
+
+</script>

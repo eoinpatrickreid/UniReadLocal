@@ -1,0 +1,22 @@
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    fetch('https://www.googleapis.com/books/v1/volumes?q=search-terms&key=AIzaSyCivqhWAihVVMCx3MQP0OVECKl-TRNeJXg')
+        .then(response => response.json())
+        .then(result => {
+            // This line prints the result to the browser's console
+            console.log(result);
+
+            // Assuming this code is part of a React component
+            // this.setState({ books: result.items });
+        })
+        .catch(error => console.error('Error:', error)); // This line will print any error that occurs during the fetch operation
+</script>
+</body>
+</html>

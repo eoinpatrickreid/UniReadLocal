@@ -1,0 +1,212 @@
+<div class="logo">
+    <a href="{{ @BASE }}/home">
+        <img src="../imageFolder/titleWhite.png" alt="uniREAD Logo" style="height: 120px; width: auto;">
+    </a>
+</div>
+<div id="navbar-placeholder"></div>
+<img id="img" src="materials/log-save-team-about_/back_image_/tissue-paperesque2_.png" alt="Decorative Background">
+
+<img id="art" src="../imageFolder/hgCollage35.png" alt="art">
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch("{{ @BASE }}/navbar")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-placeholder').innerHTML = data;
+            });
+    });
+    function toggleNav() {
+        var nav = document.getElementById("mySidenav");
+        nav.style.width = nav.style.width === "250px" ? "0" : "250px";
+    }
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="icon" type="image/png" href="/img/lib/noun-library-3535139.png">
+    <link href="../index.php" rel="stylesheet" type="text/css" media="all">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #b6fbff 0%, #83a4d4 100%);
+        }
+        iframe {
+            width: 100%;
+            height: calc(100% - 40px);
+            border: none;
+        }
+        .link-bar {
+            text-align: right;
+            padding: 10px;
+            background-color: rgb(174, 241, 244);
+            position: fixed;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+        .link-bar a, .menu-toggle {
+            color: #000;
+            text-decoration: none;
+            margin: 0 10px;
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+        }
+        .menu-toggle:hover, .link-bar a:hover {
+            text-decoration: underline;
+        }
+        .side-nav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 10;
+            top: 0;
+            right: 0;
+            background: linear-gradient(to bottom, #b6fbff 0%, #1568e7 100%);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+        .side-nav a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #fff;
+            display: block;
+            transition: 0.3s;
+        }
+        .side-nav a:hover {
+            color: #f1f1f1;
+        }
+        .side-nav .close-btn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            color: #fff;
+        }
+        #navbar-placeholder {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1001;
+            margin: 10px;
+            transform: rotate(-10deg);
+        }
+        #img {
+            position: fixed;
+            width: 100vw;
+            height: 30vh;
+            top: 0;
+            left: 0;
+            object-fit: cover;
+            z-index: 999;
+        }
+        #art {
+            position: fixed;
+            width: 120vw;
+            height: auto;
+            top: 120%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: contain;
+            z-index: 999;
+        }
+
+        h2 {
+            margin-top: 130px;
+            font-size: 32px;
+            z-index: 1002;
+            position: relative;
+            color: black;
+        }
+
+        #booksTable {
+            font-size: 20px;
+            z-index: 1002;
+            position: relative;
+        }
+
+        #img {
+            z-index: 998;
+        }
+    </style>
+
+    <script src="/ui/js/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.upvote').on('click', function() {
+                var bookTitle = $(this).data('title');
+                $.ajax({
+                    url: '{{ @BASE }}/dataViewBook',
+                    type: 'POST',
+                    data: { 'name': bookTitle },
+                    success: function(response) {
+                        const message = response;
+                        const regex = /New vote count: (\d+)/;
+                        const match = message.match(regex);
+                        const voteCount = match[1];
+                        $("span.vote-count[data-title='" + bookTitle + "']").text(voteCount);
+                        reorderBooksTable();
+                    },
+                    error: function() {
+                        alert("Error updating upvote.");
+                    }
+                });
+            });
+        });
+
+        function reorderBooksTable() {
+            var rows = $('#booksTable tr').get();
+            rows = rows.slice(1).sort(function(a, b) {
+                var valA = parseInt($(a).find(".vote-count").text());
+                var valB = parseInt($(b).find(".vote-count").text());
+                return valB - valA;
+            });
+
+            $.each(rows, function(index, row) {
+                $('#booksTable').append(row);
+            });
+        }
+    </script>
+</head>
+<h2>Vote for next weeks book:</h2>
+
+
+<table id="booksTable">
+    <tr>
+        <th>Title</th><th>Genre</th><th>Vote</th>
+    </tr>
+    <repeat group="{{ @dbData }}" value="{{ @record }}">
+        <tr>
+            <td>{{ trim(@record.title) }}</td>
+            <td><span class="vote-count" data-title="{{ @record.title }}">{{ trim(@record.votes) }}</span></td>
+            <td>
+                <button class="upvote" data-title="{{ @record.title }}">Upvote</button>
+            </td>
+        </tr>
+    </repeat>
+</table>
+
+
+

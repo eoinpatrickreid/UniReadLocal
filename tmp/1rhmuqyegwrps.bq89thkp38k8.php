@@ -1,0 +1,172 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Screen Embed with Styled Navigation Menu</title>
+    <link rel="icon" type="image/png" href="img/lib/noun-library-3535139.png">
+    <link href="index.php" rel="stylesheet" type="text/css" media="all">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: 'DOS-V';
+            src: url('fonts/Px437_DOS-V_re_ANK24.ttf') format('truetype');
+        }
+
+        body {
+            font-family: 'DOS-V', monospace;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            top: 20%;
+            text-align: center;
+        }
+
+    iframe {
+        width: 100%;
+        height: calc(100% - 40px);
+        border: none;
+    }
+    .link-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: right;
+        padding: 20px;
+        background-color: transparent;
+        position: fixed;
+        width: 100%;
+        box-sizing: border-box;
+        z-index: 10;
+    }
+    .menu-toggle {
+        color: #000;
+        text-decoration: none;
+        margin: 0 10px;
+        font-family: Arial, sans-serif;
+        cursor: pointer;
+        font-size: 55px; /* Adjust this value to change the size */
+        padding: 2.5px 5px; /* Optional: add padding to increase hit area and visual size */
+    }
+
+    .nav-items {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        flex-grow: 1;
+    }
+    .link-bar a, .menu-toggle {
+        color: #000;
+        text-decoration: none;
+        margin: 0 10px;
+        font-family: Arial, sans-serif;
+        cursor: pointer;
+    }
+    .menu-toggle:hover, .link-bar a:hover {
+        text-decoration: underline;
+    }
+    .side-nav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        background: linear-gradient(to bottom, #b6fbff 0%, #1568e7 100%);
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+    }
+    .side-nav a {
+        padding: 10px 15px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #fff;
+        display: block;
+        transition: 0.3s;
+    }
+    .side-nav a:hover {
+        color: #f1f1f1;
+    }
+    .side-nav .close-btn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+        color: #000000;
+    }
+    .logo {
+        color: #FFF;
+        font-family: Jomhuria;
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+        .submenu a {
+            padding-left: 30px; /* Increase padding for submenu items for visual nesting */
+            font-size: 22px; /* Optional: adjust font size for submenu items */
+        }
+
+        .submenu {
+            display: none; /* Ensure submenu is hidden by default */
+        }
+        .side-nav .submenu {
+            width: 100%; /* Ensure the submenu container spans the full width */
+        }
+
+        .side-nav .submenu a {
+            text-align: right; /* Align the text of submenu items to the right */
+            display: block; /* Ensures each link is on a new line */
+        }
+
+    </style>
+    <script>
+        function toggleNav() {
+            var nav = document.getElementById("mySidenav");
+            nav.style.width = nav.style.width === "250px" ? "0" : "250px";
+        }
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            var submenuToggle = document.querySelector('.submenu-toggle');
+            if (submenuToggle) { // Check if the element exists
+                submenuToggle.onclick = function() {
+                    var submenu = document.querySelector('.submenu');
+                    if (submenu) { // Check if the submenu element exists
+                        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+                    } else {
+                        console.error("Submenu element not found.");
+                    }
+                };
+            } else {
+                console.error("Submenu toggle button not found.");
+            }
+        });
+    </script>
+
+    <div class="link-bar">
+        <div class="nav-items">
+            <span class="menu-toggle" onclick="toggleNav()">☰</span>
+        </div>
+    </div>
+    <div id="mySidenav" class="side-nav">
+        <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">&times;</a>
+        <a href="<?= ($BASE) ?>/home">Home</a>
+        <a href="javascript:void(0)" class="submenu-toggle">☰ Library</a>
+        <div class="submenu" style="display: none;">
+            <a href="<?= ($BASE) ?>/library">- Library Home</a>
+            <a href="<?= ($BASE) ?>/publicLibrary">- Public Library</a>
+            <a href="<?= ($BASE) ?>/privateLibrary">- Personal Library</a>
+            <a href="<?= ($BASE) ?>/favourites">- Favourites</a>
+
+        </div>
+        <a href="<?= ($BASE) ?>/thisweeksbookFinal">This Weeks book</a>
+        <a href="<?= ($BASE) ?>/discussion">Discuss</a>
+        <a href="<?= ($BASE) ?>/voteForBook">Vote</a>
+        <a href="<?= ($BASE) ?>/login">Log In</a>
+        <a href="<?= ($BASE) ?>/register">Register</a>
+        <a href="<?= ($BASE) ?>/about">About</a>
+
+    </div>

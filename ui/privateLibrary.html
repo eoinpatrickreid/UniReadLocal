@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js demo-2">
+<div class="logo">
+    <a href="{{ @BASE }}/home"><img src="imageFolder/titleWhite.png" alt="uniREAD Logo" style="height: 120px; width: auto;"></a>
+</div>
+<div id="navbar-placeholder"></div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Scribble&display=swap" rel="stylesheet">
+<img id="title" src="images/personalLibrary.png" alt="Personal Library">
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch("{{ @BASE }}/navbar")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-placeholder').innerHTML = data;
+                // Move the submenu logic here, after the navbar has been loaded
+                setupSubmenuToggle();
+            });
+    });
+
+    function toggleNav() {
+        var nav = document.getElementById("mySidenav");
+        nav.style.width = nav.style.width === "250px" ? "0" : "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+
+    function setupSubmenuToggle() {
+        var submenuToggle = document.querySelector('.submenu-toggle');
+        if (submenuToggle) {
+            submenuToggle.onclick = function() {
+                var submenu = document.querySelector('.submenu');
+                if (submenu) {
+                    submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+                } else {
+                    console.error("Submenu element not found.");
+                }
+            };
+        } else {
+            console.error("Submenu toggle button not found.");
+        }
+    }
+</script>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Book Showcase</title>
+    <link rel="stylesheet" type="text/css" href="default.css" />
+    <link rel="stylesheet" type="text/css" href="component2.css" />
+    <script src="ui/js/modernizr.custom.js"></script>
+    <style>
+        @font-face {
+            font-family: 'DOS-V';
+            src: url('fonts/Px437_DOS-V_re_ANK24.ttf') format('truetype');
+        }
+        #title{
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            width: 65%;
+        }
+        h4 {
+            font-family: "Rubik Scribble", system-ui;
+            font-size: 60pt;
+            color: white;
+        }
+        h5 {
+            font-family: 'DOS-V', monospace;
+            font-size: 10pt;
+        }
+
+        body {
+            font-family: 'DOS-V', monospace;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            top: 50%;
+        }
+        .logo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1200;
+            margin: 40px;
+
+        }
+        .logo a {
+            cursor: pointer; /* Optional: Clearly indicates the logo is clickable */
+            display: block;
+            padding: 30px 15px;
+        }
+
+        .logo a img {
+            transition: transform 0.3s ease-in-out;
+            transform: rotate(-10deg);
+            width: 100px;
+        }
+
+        .logo a:hover img {
+            transform: rotate(0deg);
+        }
+        #navbar-placeholder {
+            position: relative;
+            z-index: 1003; /* Ensure this is higher than clouds and any other overlaying element */
+        }
+        .side-nav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 10;
+            top: 0;
+            right: 0;
+            background: linear-gradient(to bottom, #6e2c01 0%, #a8420a 100%);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+        .menu-toggle {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+            font-size: 55px; /* Adjust this value to change the size */
+            padding: 2.5px 5px; /* Optional: add padding to increase hit area and visual size */
+        }
+        .container {
+            position: fixed;
+            top: 70%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+        #loginModal a, #loginModal a:visited, #loginModal a:hover, #loginModal a:active {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            position: relative;
+            transition: 0.5s color ease;
+            text-decoration: none;
+            color: #81b3d2;
+            font-size: 15pt;
+        }
+
+        #loginModal a:hover {
+            color: #2f41c9;
+        }
+
+        #loginModal a.before:before, #loginModal a.after:after {
+            content: "";
+            transition: 0.5s all ease;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            position: absolute;
+        }
+
+        #loginModal a.before:before {
+            top: -0.25em;
+        }
+
+        #loginModal a.after:after {
+            bottom: -0.25em;
+        }
+
+        #loginModal a.before:before, #loginModal a.after:after {
+            height: 5px;
+            height: 0.35rem;
+            width: 0;
+            background: #2f41c9;
+        }
+
+        #loginModal a.first:after {
+            left: 0;
+        }
+
+        #loginModal a.before:hover:before, #loginModal a.after:hover:after {
+            width: 100%;
+        }
+        #loginModal .close-btn {
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px; /* Larger font size for better visibility */
+            font-weight: bold;
+            color: #aaa; /* Lighter color for a subtler look */
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 0;
+            line-height: 1;
+            text-shadow: 0 1px 0 #fff; /* Optional: Adds a subtle shadow to the 'X' for better legibility */
+        }
+
+        #loginModal .close-btn:hover {
+            color: #777; /* Darker color on hover for visual feedback */
+        }
+
+        .square{
+            box-sizing:border-box;
+            margin-left:-0.4em;
+            position:relative;
+            font-size:2.5em;
+            overflow:hidden;
+        }
+        .square a{
+            position:static;
+            font-size:100%;
+            padding:0.2em 0.4em;
+        }
+        .square:before,.square:after{
+            content: "";
+            box-sizing:border-box;
+            transition:0.25s all ease;
+            -webkit-backface-visibility:hidden;
+            backface-visibility:hidden;
+            position:absolute;
+            width:5px;
+            width:0.35rem;
+            height:0;
+            background: #2f41c9;
+        }
+        .square:before{
+            left:0;
+            bottom:-0.2em;
+        }
+        .square.individual:before{
+            transition-delay:0.6s;
+        }
+        .square:after{
+            right:0;
+            top:-0.2em;
+        }
+        .square.individual:after{
+            transition-delay:0.2s;
+        }
+        .square a:before{
+            left:0;
+            transition:0.25s all ease;
+        }
+        .square a:after{
+            right:0;
+            transition:0.25s all ease;
+        }
+        .square.individual a:after{
+            transition:0.25s all ease 0.4s;
+        }
+        .square:hover:before,.square:hover:after{
+            height:calc(100% + 0.4em);
+        }
+        .square:hover a:before,.square:hover a:after{
+            width:100%;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <header class="clearfix">
+        <span class="support-note" style="text-align: center; font-size: 15pt; color: white">These are the books you have read! <br> Click on a book to read about it! Add the book to your favourites inside. (Best viewed in WebKit browsers)</span>
+    </header>
+    <div class="main">
+        <ul id="bk-list" class="bk-list clearfix"></ul>
+        <div class="bookshelf"></div>
+    </div>
+</div><!-- /container -->
+<div id="loginModal" style="display:none; position:fixed; z-index:1500; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
+    <div style="background-color:#fefefe; margin:15% auto; padding:20px; border:1px solid #888; width:80%; max-width:450px; position: relative;">
+        <button onclick="document.getElementById('loginModal').style.display='none'" style="position:absolute; top:10px; right:10px; background:none; border:none; font-size:20px; font-weight:bold; color:#333;" class="close-btn">&times;</button>
+        <p>You must be logged in to view your personal library. Please <a class="first after" href="{{ @BASE }}/login">log in</a> or <a class="first after" href="{{ @BASE }}/register">register</a>.</p>
+    </div>
+</div>
+<div id="loginStatus" data-logged-in="{{ @loggedIn }}"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+    async function fetchBooksAndCreateISBNArray(isLoggedIn) {
+        if (!isLoggedIn) {
+            // If not logged in, show a popup and stop the function
+            document.getElementById('loginModal').style.display = 'block';
+            return; // Exit the function early
+        }
+
+        try {
+            const response = await fetch('{{ @BASE }}/api/user-read'); // Fetch the books data
+            const books = await response.json(); // Parse the JSON response
+
+            const isbnList = []; // Initialize an empty array for ISBNs
+
+            // Iterate over each book and add its ISBN to the array
+            books.forEach(book => {
+                isbnList.push(book.ISBN); // Add the book's ISBN to the array
+            });
+
+            return isbnList; // Return the array for further processing
+        } catch (error) {
+            console.error('Fetching books failed:', error);
+        }
+    }
+    document.addEventListener('DOMContentLoaded', async () => {
+        var isLoggedIn = $('#loginStatus').data('logged-in');
+
+        // Call the function when the script loads
+        const isbnList = await fetchBooksAndCreateISBNArray(isLoggedIn);
+
+        //const isbnList = ['9780140328721', '9780439554930', '9780061120084'];
+        const bookListElement = document.getElementById('bk-list');
+        let bookCounter = 1;
+        let fetchPromises = [];
+        isbnList.forEach(isbn => {
+            let fetchPromise = fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.totalItems > 0) {
+                        const bookDetails = data.items[0].volumeInfo;
+                        const bookId = data.items[0].id; // Get the book ID
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `
+                    <div class="bk-book book-${bookCounter}">
+                        <div class="bk-front">
+                            <div class="bk-cover-back"></div>
+                            <div class="bk-cover">
+                                <h2>
+                                    <span>${bookDetails.authors ? bookDetails.authors.join(', ') : 'Unknown Author'}</span>
+                                    <span>${bookDetails.title}</span>
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="bk-page">
+                            <div class="bk-content bk-content-current">
+                                <h5>${bookDetails.title}</h5>
+                                <p>&emsp; &emsp;By ${bookDetails.authors}</p>
+                                <p></p>
+                                <p></p>
+                                <p></p>
+                                <p></p>
+                                <p>Contents:</p>
+                                <p>Page 1 - Book cover</p>
+                                <p>Page 2 - Book summary</p>
+                                <p>Page 3 - Link to Book Reader</p>
+                                <button class="make-favourite" data-isbn="${isbn}">Add to Favourites</button>
+                            </div>
+                            <div class="bk-content">
+                                <img src="${bookDetails.imageLinks ? bookDetails.imageLinks.thumbnail : 'path/to/default/image.jpg'}" alt="Book Cover">
+                            </div>
+                            <div class="bk-content">
+                                <p>${bookDetails.description ? bookDetails.description : 'No description available.'}</p>
+                            </div>
+                            <div class="bk-content">
+                                <a href="https://books.google.com/books?id=${bookId}&hl=&source=gbs_api" target="_blank">Read Preview on Google Books</a>
+                            </div>
+                        </div>
+                        <div class="bk-back">
+                            <p></p>
+                        </div>
+                        <div class="bk-right"></div>
+                        <div class="bk-left">
+                            <h2>
+                                <span>${bookDetails.authors ? bookDetails.authors.join(', ') : 'Unknown Author'}</span>
+                                <span>${bookDetails.title}</span>
+                            </h2>
+                        </div>
+                        <div class="bk-top"></div>
+                        <div class="bk-bottom"></div>
+                    </div>
+                `;
+                        bookListElement.appendChild(listItem);
+                        bookCounter++;
+                    }
+                });
+            fetchPromises.push(fetchPromise);
+        });
+
+
+
+        Promise.all(fetchPromises).then(() => {
+            Books.init(); // Initialize book functionality after all books have been added
+            document.querySelectorAll('.make-favourite').forEach(button => {
+                button.addEventListener('click', function() {
+                    const isbn = this.getAttribute('data-isbn'); // Get the ISBN from the button's data attribute
+                    addToFavourites(isbn); // Call the function to add the book to favourites
+                });
+            });
+        }).catch(error => {
+            console.error('Error initializing books:', error);
+        });
+        function addToFavourites(isbn) {
+            $.ajax({
+                url: '{{ @BASE }}/makeFavourite', // Replace '{{ @BASE }}' with your actual base URL if necessary
+                type: 'POST',
+                data: { isbn: isbn },
+                success: function(response) {
+                    const result = JSON.parse(response);
+                    if(result.success) {
+                        alert('Book added to favourites successfully!');
+                    } else {
+                        alert('Error adding book to favourites.');
+                    }
+                },
+                error: function() {
+                    alert('There was an error processing your request.');
+                }
+            });
+        }
+    });
+
+</script>
+
+<script>
+    var Books = (function() {
+        var transEndEventNames = {
+                'WebkitTransition' : 'webkitTransitionEnd',
+                'MozTransition' : 'transitionend',
+                'OTransition' : 'oTransitionEnd',
+                'msTransition' : 'MSTransitionEnd',
+                'transition' : 'transitionend'
+            },
+            transEndEventName = transEndEventNames[ Modernizr.prefixed('transition') ],
+            $books, booksCount, currentbook = -1;
+
+        function init() {
+            // Re-select the book elements to include those added dynamically
+            $books = $( '#bk-list > li > div.bk-book' );
+            booksCount = $books.length;
+
+            $books.each(function(i) {
+                var $book = $(this),
+                    $other = $books.not($book),
+                    $parent = $book.parent(),
+                    $page = $book.children('div.bk-page'),
+                    $content = $page.children('div.bk-content'),
+                    current = 0;
+
+                if( i < booksCount / 2 ) {
+                    $parent.css( 'z-index', i ).data( 'stackval', i );
+                }
+                else {
+                    $parent.css( 'z-index', i ).data( 'stackval', i );
+                }
+
+                // Resetting z-index and stack values here might not be necessary anymore
+                // unless you're specifically using them for a purpose not shown.
+
+                $book.off('click').on('click', function() {
+                    // Close currently opened book if it's not the same as the one being opened
+                    if (currentbook !== -1 && currentbook !== $parent.index()) {
+                        closeCurrent();
+                    }
+
+                    // Toggle the book view
+                    if ($book.data('opened')) {
+                        $book.data('opened', false).removeClass('bk-viewinside').on(transEndEventName, function() {
+                            $(this).off(transEndEventName).removeClass('bk-outside');
+                            $parent.css( 'z-index', $parent.data( 'stackval' ) );
+                            currentbook = -1;
+                        });
+                    } else {
+                        $book.data('opened', true).addClass('bk-outside').on(transEndEventName, function() {
+                            $(this).off(transEndEventName).addClass('bk-viewinside');
+                            $parent.css( 'z-index', booksCount );
+                            currentbook = $parent.index();
+                        });
+                        current = 0;
+                        $content.removeClass('bk-content-current').eq(current).addClass('bk-content-current');
+                    }
+                });
+
+                // Pagination inside book
+                if ($content.length > 1) {
+                    var $navPrev = $('<span class="bk-page-prev">&lt;</span>'),
+                        $navNext = $('<span class="bk-page-next">&gt;</span>');
+
+                    $page.append($('<nav></nav>').append($navPrev, $navNext));
+
+                    $navPrev.on('click', function() {
+                        if (current > 0) {
+                            --current;
+                            $content.removeClass('bk-content-current').eq(current).addClass('bk-content-current');
+                        }
+                        return false;
+                    });
+
+                    $navNext.on('click', function() {
+                        if (current < $content.length - 1) {
+                            ++current;
+                            $content.removeClass('bk-content-current').eq(current).addClass('bk-content-current');
+                        }
+                        return false;
+                    });
+                }
+            });
+        }
+
+        function closeCurrent() {
+            var $book = $books.eq(currentbook),
+                $parent = $book.parent();
+
+            $book.data('opened', false).removeClass('bk-viewinside').on(transEndEventName, function(e) {
+                $(this).off(transEndEventName).removeClass('bk-outside');
+                $parent.css( 'z-index', $parent.data( 'stackval' ) );
+                currentbook = -1;
+            });
+        }
+
+        return { init: init };
+    })();
+</script>
+
+</body>
+</html>

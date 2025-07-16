@@ -1,0 +1,11 @@
+{
+	"name": "eoinpatrickreid/uniread",
+	"description": "UniRead Web App",
+	"homepage": "http://fatfreeframework.com/",
+	"type": "project",
+	"license": "GPL-3.0",
+	"require": {
+		"bcosca/fatfree-core": "^3.8",
+		"php": ">=7.4"
+	}
+}

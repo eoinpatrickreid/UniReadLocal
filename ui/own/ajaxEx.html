@@ -1,0 +1,9 @@
+<h2>Example 1</h2>
+<p>Start typing a name in the input field below:</p>
+<p>Names suggested will be from your FFF-SimpleExample data, so make
+	sure there is data in your simpleModel table</p>
+<form action="{{ @BASE }}/ajaxEx/user/" method="post">
+	Name: <input type="text" name="name" onkeyup="showHint(this.value)" size="20" />
+	<input type="submit" name="submit" value="submit"/>
+</form>
+<p>Suggestions: <span id="txtHint"></span></p>

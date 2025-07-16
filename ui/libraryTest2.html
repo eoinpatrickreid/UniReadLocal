@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Book Listing</title>
+    <link rel="stylesheet" type="text/css" href="default.css" />
+    <link rel="stylesheet" type="text/css" href="component.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="ui/js/books1.js"></script> <!-- Ensure this path is correct -->
+    <style>
+        /* Add your CSS here */
+        body {
+            font-family: 'DOS-V', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(to bottom, #b6fbff 0%, #83a4d4 100%);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: auto;
+        }
+        .bk-list li {
+            list-style-type: none;
+        }
+        .bk-cover {
+            height: 200px;
+            background-size: cover;
+        }
+        /* Add additional custom styles here */
+    </style>
+</head>
+<body>
+<div class="container">
+    <header class="clearfix">
+        <h1>Vote for next weeks book:</h1>
+    </header>
+    <div class="main">
+        <ul id="bk-list" class="bk-list clearfix">
+            <!-- Book items will be added here dynamically -->
+        </ul>
+    </div>
+</div><!-- /container -->
+
+<script>
+    $(document).ready(function() {
+        fetchBooksData();
+    });
+
+    function fetchBooksData() {
+        // Placeholder for book data
+        var dbData = [
+            // Example book data - replace with your own data source
+            { isbn: "9780451524935", title: "1984", votes: 5, URL: "path/to/cover1.jpg" },
+            { isbn: "9780743273565", title: "The Great Gatsby", votes: 3, URL: "path/to/cover2.jpg" }
+            // Add more books here
+        ];
+
+        var $bkList = $('#bk-list');
+        dbData.forEach(function(book) {
+            var $li = $('<li></li>');
+            var $bookDiv = $('<div class="bk-book"></div>');
+            var $frontDiv = $('<div class="bk-front"><div class="bk-cover" style="background-image: url(' + book.URL + ');"></div></div>');
+            var $infoDiv = $('<div class="bk-info"></div>');
+
+            $infoDiv.append('<button class="bk-bookback">Flip</button>');
+            $infoDiv.append('<button class="bk-bookview">View inside</button>');
+            $infoDiv.append('<h3><span>' + book.title + '</span></h3>');
+            $infoDiv.append('<p>Votes: <span class="vote-count">' + book.votes + '</span></p>');
+
+            $bookDiv.append($frontDiv);
+            $li.append($bookDiv);
+            $li.append($infoDiv);
+
+            $bkList.append($li);
+        });
+
+        // Initialize book functionality after adding them
+        Books.init();
+    }
+</script>
+</body>
+</html>
+
+
